@@ -19,7 +19,7 @@ namespace CommandKeeper.Data
 
         public Command GetCommandById(int id)
         {
-            return new Command{ d = 0, HowTo = "sare", Line = "piper", Platform = "oala" };
+            return new Command{ Id = 0, HowTo = "sare", Line = "piper", Platform = "oala" };
         }
     }
 }
