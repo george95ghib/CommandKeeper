@@ -10,7 +10,14 @@ namespace CommandKeeper.Controllers
     [ApiController]
     public class CommandsController : ControllerBase
     {
-        private readonly MockCommandKeeperRepo _repository = new MockCommandKeeperRepo();
+        private readonly ICommandKeeperRepo _repository;
+
+        public CommandsController(ICommandKeeperRepo repository)
+        {
+            _repository = repository;
+        }
+        
+        // private readonly MockCommandKeeperRepo _repository = new MockCommandKeeperRepo();
 
         // GET api/commands
         [HttpGet]
