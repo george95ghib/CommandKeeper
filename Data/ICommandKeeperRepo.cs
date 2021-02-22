@@ -5,7 +5,7 @@ namespace CommandKeeper.Data
 {
     public interface ICommandKeeperRepo
     {
-        IEnumerable<Command> GetAppCommands();
+        IEnumerable<Command> GetAllCommands();
         Command GetCommandById(int id);
     }
 }

@@ -1,20 +1,22 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CommandKeeper.Models
 {
     public class Command
     {
         
+        [Key]
         public int Id { get; set; }
-        public string HowTo { get; set; }
-        public string Line { get; set; }
-        public string Platform { get; set; }
 
-        // public Command(int id, string howTo, string line, string platform)
-        // {
-        //     Id = id;
-        //     HowTo = howTo;
-        //     Line = line;
-        //     Platform = platform;
-        // }
+        [Required]
+        [MaxLength(250)]
+        public string HowTo { get; set; }
+
+        [Required]
+        public string Line { get; set; }
+
+        [Required]
+        public string Platform { get; set; }
 
 
     }

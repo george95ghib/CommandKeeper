@@ -5,7 +5,7 @@ namespace CommandKeeper.Data
 {
     public class MockCommandKeeperRepo : ICommandKeeperRepo
     {
-        public IEnumerable<Command> GetAppCommands()
+        public IEnumerable<Command> GetAllCommands()
         {
             var commands = new List<Command>
             {
