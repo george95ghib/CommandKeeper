@@ -33,7 +33,8 @@ namespace CommandKeeper
 
             services.AddControllers();
             
-            // services.AddScoped<ICommandKeeperRepo, MockCommandKeeperRepo>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<ICommandKeeperRepo, SqlCommandKeeperRepo>();
 
             services.AddSwaggerGen(c =>
