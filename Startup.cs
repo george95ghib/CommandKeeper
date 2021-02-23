@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace CommandKeeper
 {
@@ -28,10 +29,15 @@ namespace CommandKeeper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CommandKeeperContext>(opt => opt.UseSqlServer
-            (Configuration.GetConnectionString("CommandKeeperConnection")));
+            services.AddDbContext<CommandKeeperContext>(opt => 
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("CommandKeeperConnection"));
+            });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => 
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
