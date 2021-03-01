@@ -1,11 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using AutoMapper;
 using CommandKeeper.Data;
 using CommandKeeper.Dtos;
 using CommandKeeper.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CommandKeeper.Controllers
 {
@@ -129,6 +137,36 @@ namespace CommandKeeper.Controllers
             _repository.SaveChanges();
 
             return NoContent();
+        }
+
+        [HttpGet("dummycommand")]
+        public async Task <DummyCommand> GetDummyCommand()
+        {
+            DummyCommand myCmd = new DummyCommand();
+            
+            var bUrl = "https://localhost:5001/";
+            var httpClientHandler = new HttpClientHandler();
+
+            // Bypass SSL validation
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) =>
+            {
+                return true;
+            };
+            
+            var httpClient = new HttpClient(httpClientHandler) { BaseAddress = new Uri(bUrl) };
+            
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+           
+            HttpResponseMessage response = await httpClient.GetAsync("api/dummycommand");
+
+            HttpContent content = response.Content;
+            string jsonContent = content.ReadAsStringAsync().Result;
+
+            myCmd = JsonConvert.DeserializeObject<DummyCommand>(jsonContent);
+
+            return myCmd;
+
         }
 
     }
